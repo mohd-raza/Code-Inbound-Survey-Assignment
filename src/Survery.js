@@ -15,7 +15,7 @@ const SurveyForm = () => {
   ];
 
   useEffect(() => {
-    const sessionAnswers = sessionStorage.getItem("surveyAnswers");
+    const sessionAnswers = localStorage.getItem("surveyAnswers");
     if (sessionAnswers) {
       setAnswers(JSON.parse(sessionAnswers));
     }
@@ -29,7 +29,7 @@ const SurveyForm = () => {
 
   const startSurvey = () => {
     const sessionId = generateSessionId();
-    sessionStorage.setItem("sessionId", sessionId);
+    localStorage.setItem("sessionId", sessionId);
     setShowWelcomeScreen(false);
   };
 
@@ -37,7 +37,7 @@ const SurveyForm = () => {
     const updatedAnswers = [...answers];
     updatedAnswers[currentQuestionIndex] = answer;
     setAnswers(updatedAnswers);
-    sessionStorage.setItem("surveyAnswers", JSON.stringify(updatedAnswers));
+    localStorage.setItem("surveyAnswers", JSON.stringify(updatedAnswers));
 
     if (currentQuestionIndex === questions.length - 1) {
       showConfirmationDialog();
@@ -52,7 +52,7 @@ const SurveyForm = () => {
     );
     if (confirmed) {
       setIsCompleted(true);
-      sessionStorage.setItem("surveyStatus", "COMPLETED");
+      localStorage.setItem("surveyStatus", "COMPLETED");
     }
   };
 
@@ -69,9 +69,9 @@ const SurveyForm = () => {
     setAnswers([]);
     setIsCompleted(false);
     setShowWelcomeScreen(true);
-    sessionStorage.removeItem("sessionId");
-    sessionStorage.removeItem("surveyAnswers");
-    sessionStorage.removeItem("surveyStatus");
+    localStorage.removeItem("sessionId");
+    localStorage.removeItem("surveyAnswers");
+    localStorage.removeItem("surveyStatus");
   };
 
   if (showWelcomeScreen) {
