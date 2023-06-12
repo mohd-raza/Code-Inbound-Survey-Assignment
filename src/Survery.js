@@ -39,9 +39,7 @@ const SurveyForm = () => {
     setAnswers(updatedAnswers);
     localStorage.setItem("surveyAnswers", JSON.stringify(updatedAnswers));
 
-    if (currentQuestionIndex === questions.length - 1) {
-      showConfirmationDialog();
-    } else {
+    if (currentQuestionIndex !== questions.length - 1) {
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
     }
   };
@@ -100,11 +98,29 @@ const SurveyForm = () => {
       </h2>
       <p>{questions[currentQuestionIndex]}</p>
       <div>
-        <button onClick={() => handleAnswer(1)}>1</button>
-        <button onClick={() => handleAnswer(2)}>2</button>
-        <button onClick={() => handleAnswer(3)}>3</button>
-        <button onClick={() => handleAnswer(4)}>4</button>
-        <button onClick={() => handleAnswer(5)}>5</button>
+        {currentQuestionIndex === 3 ? (
+          // Question 4
+          Array.from({ length: 10 }, (_, index) => (
+            <button key={index + 1} onClick={() => handleAnswer(index + 1)}>
+              {index + 1}
+            </button>
+          ))
+        ) : currentQuestionIndex === 4 ? (
+          // Question 5
+          <>
+            <input type="text" onChange={(e) => handleAnswer(e.target.value)} />
+            <button onClick={showConfirmationDialog}>Complete</button>
+          </>
+        ) : (
+          // Other questions
+          <>
+            <button onClick={() => handleAnswer(1)}>1</button>
+            <button onClick={() => handleAnswer(2)}>2</button>
+            <button onClick={() => handleAnswer(3)}>3</button>
+            <button onClick={() => handleAnswer(4)}>4</button>
+            <button onClick={() => handleAnswer(5)}>5</button>
+          </>
+        )}
       </div>
       <button
         onClick={handlePreviousQuestion}
